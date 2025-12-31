@@ -153,11 +153,11 @@ public class SamuelSaysModule : MonoBehaviour {
     private IEnumerator FlashStrikeFace() {
         SymbolDisplay.DisplayEmoticon(_strikeFaces[Rnd.Range(0, _strikeFaces.Length)], Color.red);
         _stateChanged = false;
-        Screen.StopSequence();
+        Screen.PauseSequence();
         yield return new WaitForSeconds(1f);
         if (!_stateChanged) {
             SymbolDisplay.ClearScreen();
-            Screen.PlaySequence(DisplayedSequence);
+            Screen.UnpauseSequence();
         }
     }
 

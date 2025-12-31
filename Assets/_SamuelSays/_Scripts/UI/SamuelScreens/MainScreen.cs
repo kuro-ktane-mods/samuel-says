@@ -28,6 +28,7 @@ public class MainScreen : MonoBehaviour {
         Color.blue
     };
     private Coroutine _displaySequence;
+    private bool _isSequencePaused = false;
 
     private void Awake() {
         _display.enabled = false;
@@ -66,11 +67,21 @@ public class MainScreen : MonoBehaviour {
     }
 
     public void PlaySequences(List<ColouredSymbol[]> sequences, bool skipPause = false) {
+        _isSequencePaused = false;
         if (_displaySequence != null) {
             StopCoroutine(_displaySequence);
         }
         _skipPause = skipPause;
         _displaySequence = StartCoroutine(DisplaySequences(sequences));
+    }
+
+    public void PauseSequence() {
+        _isSequencePaused = true;
+        StopDisplayingColour();
+    }
+
+    public void UnpauseSequence() {
+        _isSequencePaused = false;
     }
 
     public void StopSequence() {
@@ -86,6 +97,9 @@ public class MainScreen : MonoBehaviour {
         float waitTime;
 
         foreach (ColouredSymbol symbol in currentSequence) {
+            while (_isSequencePaused) {
+                yield return null;
+            }
             int flashLength = (symbol.Symbol == '-') ? 3 : 1;
             DisplayColour(symbol.Colour);
 

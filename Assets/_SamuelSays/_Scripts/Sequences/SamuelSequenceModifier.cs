@@ -365,7 +365,8 @@ public class SamuelSequenceModifier {
     }
 
     private void MoveDotsToFront() {
-        _modifiedSymbols = new string('.', _uniquePortTypeCount);
+        int numDots = _modifiedSymbols.Count(s => s == '.');
+        _modifiedSymbols = new string('.', numDots);
         while (_modifiedSymbols.Length < _modifiedColours.Count()) {
             _modifiedSymbols += "-";
         }
